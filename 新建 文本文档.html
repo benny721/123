@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>铁路的个人网站</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .profile h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .profile p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .projects {
+            margin-top: 30px;
+        }
+        .projects h2 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .project {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .project:hover {
+            transform: translateY(-3px);
+        }
+        .project h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        .project p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>铁路的个人网站</h1>
+    </div>
+    <div class="container">
+        <div class="profile">
+            <img src="https://gitee.com/benny123111/avatar" alt="铁路">
+            <h2>铁路</h2>
+            <p>欢迎来到我的个人网站！</p>
+        </div>
+        <div class="projects">
+            <h2>我的项目</h2>
+            <div id="project-list"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>更多项目请访问我的Gitee主页：<a href="https://gitee.com/benny123111/dashboard/projects?_refluxos=a10" target="_blank">https://gitee.com/benny123111/dashboard/projects?_refluxos=a10<;/a></p>
+    </div>
+
+    <script>
+        async function fetchProjects() {
+            const url = 'https://gitee.com/api/v5/users/benny123111/repos?access_token=76b37554c9e90ae151b087a62c62140b';
+            try {
+                const response = await fetch(url);
+                const projects = await response.json();
+                const projectList = document.getElementById('project-list');
+                projectList.innerHTML = '';
+                projects.forEach(project => {
+                    const projectDiv = document.createElement('div');
+                    projectDiv.className = 'project';
+                    projectDiv.innerHTML = `
+                        <h3><a href="${project.html_url}" target="_blank">${project.name}</a></h3>
+                        <p>${project.description}</p>
+                    `;
+                    projectList.appendChild(projectDiv);
+                });
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+            }
+        }
+
+        // 调用函数获取项目列表
+        fetchProjects();
+    </script>
+</body>
+</html>
